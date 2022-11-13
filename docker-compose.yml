@@ -1,0 +1,31 @@
+version: '3.9'
+services:
+  app:
+    restart: always
+    build: .
+    container_name: app
+    command: sh -c "python manage.py collectstatic --noinput && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+  db:
+    image: postgres
+    container_name: db
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+        - POSTGRES_HOST_AUTH_METHOD=trust
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=root
+        - POSTGRES_DB=job_portal_django
+        - POSTGRES_HOST=db
+    ports:
+      - "5432:5432"
+volumes: 
+  postgres_data:
+  app:
