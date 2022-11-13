@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'job_portal.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'HOST': os.getenv('POSTGRES_HOST','localhost'),
+        'HOST': 'db',
         'NAME': 'job_portal_django',
         'USER': 'postgres',
         'PASSWORD': 'root',
